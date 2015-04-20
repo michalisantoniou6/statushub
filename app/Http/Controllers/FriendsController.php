@@ -18,7 +18,7 @@ class FriendsController extends Controller {
 	 */
 	public function index($userId)
 	{
-		if ( $userId != \Auth::user()->id && ! FriendshipVerificationController::verifyFriendship($userId)  ) {
+		if ( $userId != \Auth::user()->id && ! FriendshipController::verifyFriendship($userId)  ) {
 			$message = 'This user is not your friend, so you cannot see this page';
 			return view('notify', [ 'message' => $message ]);
 		}
