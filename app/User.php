@@ -46,19 +46,42 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 		return $this->belongsToMany('StatusHub\User', 'friends_users', 'friend_id', 'user_id');
 	}
 
-	public function addFriend(User $friend)
+	public function addFriend($friendId)
 	{
-		$this->friends()->attach($friend->id);
+		$this->friendsIAdded()->attach($friendId);
 	}
 
-	public function removeFriend(User $friend)
+	public function removeFriend($friendId)
 	{
-		$this->friends()->detach($friend->id);
+		$this->friendsIAdded()->detach($friendId);
 	}
 
 	public function getAllFriends()
 	{
 		return $this->friendsWhoAddedMe->merge($this->friendsIAdded);
+	}
+
+	public function getAllNotFriends($userId)
+	{
+		$allUsers = User::all()->lists('id');
+		$allFriends = $this->getAllFriends()->lists('id');
+
+		$allNotFriends = array_diff($allUsers, $allFriends);
+
+		//remove current user from results
+		if(($key = array_search($userId, $allNotFriends)) !== false) {
+			unset($allNotFriends[$key]);
+		}
+
+		$allNotFriendsObj = [];
+		$index = 0;
+
+		foreach ($allNotFriends as $notFriend) {
+			$allNotFriendsObj[$index] = User::find($notFriend)->toArray();
+			$index++;
+		}
+
+		return $allNotFriendsObj;
 	}
 
 	public function verifyFriendship($friendId)

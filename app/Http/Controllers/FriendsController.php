@@ -2,6 +2,7 @@
 
 use StatusHub\User;
 
+
 use Illuminate\Routing\Router;
 
 use StatusHub\Http\Requests;
@@ -11,6 +12,17 @@ use Illuminate\Http\Request;
 
 class FriendsController extends Controller {
 
+	private $isUrlUserAFriend;
+	private $authUser;
+
+	public function __construct(Router $router)
+	{
+		$userId = $router->current()->getParameter('user');
+
+		$this->authUser = \Auth::user();
+		$this->isUrlUserAFriend = $this->authUser->verifyFriendship($userId);
+	}
+
 	/**
 	 * Display a listing of the resource.
 	 *
@@ -18,7 +30,7 @@ class FriendsController extends Controller {
 	 */
 	public function index($userId)
 	{
-		if ( $userId != \Auth::user()->id && ! FriendshipController::verifyFriendship($userId)  ) {
+		if ( $userId != \Auth::user()->id && ! $this->isUrlUserAFriend  ) {
 			$message = 'This user is not your friend, so you cannot see this page';
 			return view('notify', [ 'message' => $message ]);
 		}
@@ -35,7 +47,9 @@ class FriendsController extends Controller {
 	 */
 	public function create()
 	{
-		return view('friends.create');
+		$allNotFriends = $this->authUser->getAllNotFriends($this->authUser->id);
+		
+		return view('friends.create', [ 'allUsers' => $allNotFriends ]);
 	}
 
 	/**
@@ -43,9 +57,16 @@ class FriendsController extends Controller {
 	 *
 	 * @return Response
 	 */
-	public function store()
+	public function store(Request $request)
 	{
-		//
+		$friendId = $request->input('friendId');
+
+		if( ! $this->authUser->verifyFriendship($friendId) ){
+			$saved = $this->authUser->addFriend($friendId);
+
+			return view('notify', [ 'message' => 'Successfully added friend' ]);
+		}
+
 	}
 
 	/**

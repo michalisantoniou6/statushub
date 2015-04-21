@@ -1,6 +1,5 @@
 <?php namespace StatusHub\Http\Controllers;
 
-use Illuminate\Support\Facades\Input;
 use StatusHub\Status;
 use StatusHub\User;
 
@@ -38,9 +37,13 @@ class StatusController extends Controller {
 	 *
 	 * @return Response
 	 */
-	public function store()
+	public function store(Request $request)
 	{
-		$saved = \Auth::user()->statuses()->save(new Status(['status' => Input::get('status')]));
+		$saved = \Auth::user()
+			->statuses()
+			->save(new Status([
+				'status' => $request->input('status')
+			]));
 
 		if ($saved) {
 			return view('notify', [ 'message' => 'Successfully saved status' ]);
@@ -86,7 +89,7 @@ class StatusController extends Controller {
 	 */
 	public function update($id)
 	{
-		dd(Input::get('status'));
+		dd('update');
 		$status = Status::find($id);
 		dd($status);
 

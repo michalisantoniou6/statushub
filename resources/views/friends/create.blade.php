@@ -4,21 +4,18 @@
     <div class="container">
         <div class="row">
             <div class="col-md-10 col-md-offset-1">
-                {!! Form::open(['route' => 'user.status.store', 'class' => 'form']) !!}
+                @foreach($allUsers as $user)
+                    {!! Form::open(['route' => 'user.friends.store', 'class' => 'form']) !!}
 
-                <div class="form-group">
-                    {!! Form::label('Status') !!}
-                    {!! Form::textarea('status', null,
-                    [ 'required',
-                    'class'=>'form-control',
-                    'placeholder'=>'Type your status here']) !!}
-                </div>
+                    <div class="form-group">
+                        <h3>{{ $user['name'] }}</h3>
+                        {!! Form::hidden('friendId', $user['id']) !!}
 
-                <div class="form-group">
-                    {!! Form::submit('Publish Status',
-                    array('class'=>'btn btn-primary')) !!}
-                </div>
-                {!! Form::close() !!}
+                        {!! Form::submit('Add Friend',
+                        array('class'=>'btn btn-primary')) !!}
+                    </div>
+                    {!! Form::close() !!}
+                @endforeach
             </div>
         </div>
     </div>
