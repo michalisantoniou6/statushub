@@ -7,6 +7,7 @@
             @foreach($statuses as $status)
                 <blockquote>
                     <p>{{ $status['status'] }}</p>
+                    <a href="{{ \URL::action('StatusController@edit', [ $authUserId, $status['id'] ]) }}">Edit</a>
                 </blockquote>
             @endforeach
         </div>

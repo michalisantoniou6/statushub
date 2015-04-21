@@ -7,7 +7,7 @@
                 {!! Form::open(['route' => 'user.status.update', 'class' => 'form']) !!}
 
                 <div class="form-group">
-                    {!! Form::label('Status') !!}
+                    <h1>Change what you said...</h1>
                     {!! Form::textarea(
                     'status',
                     isset($status) ? $status : '',

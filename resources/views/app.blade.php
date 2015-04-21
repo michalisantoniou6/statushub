@@ -42,6 +42,10 @@
 						<li class="dropdown">
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">{{ Auth::user()->name }} <span class="caret"></span></a>
 							<ul class="dropdown-menu" role="menu">
+								<li><a href="{{ \URL::action('FriendsController@create', [ $authUserId ]) }}">Make Friends</a></li>
+								<li><a href="{{ \URL::action('FriendsController@index', [ $authUserId ]) }}">Your Friend List</a></li>
+								<li><a href="{{ \URL::action('StatusController@create', [ $authUserId ]) }}">Write A Status</a></li>
+								<li><a href="{{ \URL::action('StatusController@index', [ $authUserId ]) }}">See your statuses</a></li>
 								<li><a href="{{ url('/auth/logout') }}">Logout</a></li>
 							</ul>
 						</li>
@@ -51,7 +55,13 @@
 		</div>
 	</nav>
 
+	@if(isset($success))
+		<div class="alert alert-success" role="alert">{{ $success }}</div>
+	@endif
+
+
 	@yield('content')
+
 
 	<!-- Scripts -->
 	<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>

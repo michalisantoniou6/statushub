@@ -2,40 +2,26 @@
 
 use StatusHub\User;
 
-
-use Illuminate\Routing\Router;
-
 use StatusHub\Http\Requests;
 use StatusHub\Http\Controllers\Controller;
 
 use Illuminate\Http\Request;
 
-class FriendsController extends Controller {
-
-	private $isUrlUserAFriend;
-	private $authUser;
-
-	public function __construct(Router $router)
-	{
-		$userId = $router->current()->getParameter('user');
-
-		$this->authUser = \Auth::user();
-		$this->isUrlUserAFriend = $this->authUser->verifyFriendship($userId);
-	}
+class FriendsController extends UserPermissionsController {
 
 	/**
 	 * Display a listing of the resource.
 	 *
 	 * @return Response
 	 */
-	public function index($userId)
+	public function index()
 	{
-		if ( $userId != \Auth::user()->id && ! $this->isUrlUserAFriend  ) {
-			$message = 'This user is not your friend, so you cannot see this page';
+		if ( $this->urlUserId != $this->authUser->id && ! $this->isUrlUserAFriend  ) {
+			$message = 'This user is not your friend, so you cannot see their friends';
 			return view('notify', [ 'message' => $message ]);
 		}
 
-		$friends = User::find($userId)->getAllFriends();
+		$friends = User::find($this->urlUserId)->getAllFriends();
 
 		return view('friends.index', ['friends' => $friends]);
 	}
@@ -48,7 +34,7 @@ class FriendsController extends Controller {
 	public function create()
 	{
 		$allNotFriends = $this->authUser->getAllNotFriends($this->authUser->id);
-		
+
 		return view('friends.create', [ 'allUsers' => $allNotFriends ]);
 	}
 
@@ -60,12 +46,19 @@ class FriendsController extends Controller {
 	public function store(Request $request)
 	{
 		$friendId = $request->input('friendId');
+		$responseMsg = '';
 
 		if( ! $this->authUser->verifyFriendship($friendId) ){
 			$saved = $this->authUser->addFriend($friendId);
 
-			return view('notify', [ 'message' => 'Successfully added friend' ]);
+			$success = 'You have added ' . User::find($friendId)->name . '!';
+
+			$responseMsg = $success;
+		} else {
+			$responseMsg = 'fail';
 		}
+
+		return $responseMsg;
 
 	}
 

@@ -8,7 +8,7 @@ use StatusHub\Http\Controllers\Controller;
 
 use Illuminate\Http\Request;
 
-class StatusController extends Controller {
+class StatusController extends UserPermissionsController {
 
 	/**
 	 * Display a listing of the resource.
@@ -17,6 +17,11 @@ class StatusController extends Controller {
 	 */
 	public function index($userId)
 	{
+		if ( $this->urlUserId != $this->authUser->id && ! $this->isUrlUserAFriend  ) {
+			$message = 'This user is not your friend, so you cannot see their status';
+			return view('notify', [ 'message' => $message ]);
+		}
+
 		$statuses = User::find($userId)->statuses->toArray();
 
 		return view('status.index', ['statuses'=>$statuses]);
@@ -70,9 +75,9 @@ class StatusController extends Controller {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function edit($id)
+	public function edit($userId, $statusId)
 	{
-		$status = Status::findOrFail($id);
+		$status = Status::find($statusId);
 
 		$data = [
 			'status' => $status->status,

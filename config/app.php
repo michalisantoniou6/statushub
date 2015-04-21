@@ -141,6 +141,7 @@ return [
 		 */
 		'StatusHub\Providers\AppServiceProvider',
 		'StatusHub\Providers\BusServiceProvider',
+		'StatusHub\Providers\ComposerServiceProvider',
 		'StatusHub\Providers\ConfigServiceProvider',
 		'StatusHub\Providers\EventServiceProvider',
 		'StatusHub\Providers\RouteServiceProvider',

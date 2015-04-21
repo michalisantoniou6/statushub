@@ -7,7 +7,7 @@
                 {!! Form::open([ 'route' => 'user.status.store', 'class' => 'form']) !!}
 
                 <div class="form-group">
-                    {!! Form::label('Status') !!}
+                    <h1>Say something...</h1>
                     {!! Form::textarea(
                     'status',
                     null,
