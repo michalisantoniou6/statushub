@@ -98,10 +98,11 @@ class StatusController extends UserPermissionsController {
 	 */
 	public function update($userId, $statusId, Request $request)
 	{
-		dd( $statusId );
-		Status::find($statusId);
+		$status = Status::find($statusId);
+		$status->status = $request->input('status');
+		$status->save();
 
-
+		return 'updated';
 	}
 
 	/**
