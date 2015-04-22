@@ -4,7 +4,7 @@
     <div class="container">
         <div class="row">
             <div class="col-md-10 col-md-offset-1">
-                {!! Form::open(['route' => 'user.status.update', 'class' => 'form']) !!}
+                {!! Form::open(['route' => ['user.status.update', 7, 4], 'method' => 'PUT', 'class' => 'form']) !!}
 
                 <div class="form-group">
                     <h1>Change what you said...</h1>
