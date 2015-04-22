@@ -7,7 +7,7 @@
                 <h1>Friends List</h1>
                 @foreach($friends as $friend)
                     <div class="box">
-                        <a href="/user/{{ $friend->id }}">{{ $friend->name }}</a>
+                        <a href="/user/{{ $friend->id }}/status">{{ $friend->name }}</a>
                     </div>
                 @endforeach
             </div>

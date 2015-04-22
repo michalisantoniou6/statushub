@@ -24,9 +24,9 @@ class StatusController extends UserPermissionsController {
 			return view('notify', [ 'message' => $message ]);
 		}
 
-		$statuses = User::find($userId)->statuses->toArray();
+		$statuses = User::find($userId)->statuses()->orderBy('created_at', 'DESC')->get()->toArray();
 
-		return view('status.index', ['statuses'=>$statuses]);
+		return view('status.index', ['statuses' => $statuses]);
 	}
 
 	/**

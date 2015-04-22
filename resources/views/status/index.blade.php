@@ -7,7 +7,10 @@
             @foreach($statuses as $status)
                 <blockquote>
                     <p>{{ $status['status'] }}</p>
-                    <a href="{{ \URL::action('StatusController@edit', [ $authUserId, $status['id'] ]) }}">Edit</a>
+                        @if( $status['user_id'] == $authUserId )
+                            <a href="{{ \URL::action('StatusController@edit', [ $authUserId, $status['id'] ]) }}">Edit</a>
+                        @endif
+                    created at {{ $status['created_at'] }}
                 </blockquote>
             @endforeach
         </div>

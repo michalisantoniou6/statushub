@@ -12,14 +12,17 @@
 */
 
 
-Route::get('/', 'HomeController@index');
+Route::group(['middleware' => 'auth'], function()
+{
+	Route::get('/', 'HomeController@index');
 
-Route::resource('user', 'UserController');
+	Route::resource('user', 'UserController');
 
-Route::resource('user.status', 'StatusController');
+	Route::resource('user.status', 'StatusController');
 
-Route::resource('user.friends', 'FriendsController',
-	['except' => ['edit', 'update', 'show']]);
+	Route::resource('user.friends', 'FriendsController',
+		['except' => ['edit', 'update', 'show']]);
+});
 
 Route::controllers([
 	'auth' => 'Auth\AuthController',
