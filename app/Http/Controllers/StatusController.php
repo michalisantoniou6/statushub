@@ -4,6 +4,8 @@ use StatusHub\Status;
 use StatusHub\User;
 
 use StatusHub\Http\Requests;
+use StatusHub\Http\Requests\StoreStatusRequest;
+
 use StatusHub\Http\Controllers\Controller;
 
 use Illuminate\Http\Request;
@@ -44,11 +46,7 @@ class StatusController extends UserPermissionsController {
 	 */
 	public function store(Request $request)
 	{
-		$saved = \Auth::user()
-			->statuses()
-			->save(new Status([
-				'status' => $request->input('status')
-			]));
+		$saved = $this->authUser->statuses()->save(new Status( $request->all() ));
 
 		if ($saved) {
 			return view('notify', [ 'message' => 'Successfully saved status' ]);
@@ -63,7 +61,6 @@ class StatusController extends UserPermissionsController {
 	 */
 	public function show($userId, $id)
 	{
-		dd($id);
 		$status = Status::find($id);
 
 		return view('status.show', [ 'status' => $status ]);
@@ -77,10 +74,17 @@ class StatusController extends UserPermissionsController {
 	 */
 	public function edit($userId, $statusId)
 	{
+		$userOwnsThis = Status::where('id', $statusId)
+				->where('user_id', \Auth::id())->exists();
+
+		if ( ! $userOwnsThis ) {
+			return 'This is not yours!';
+		}
+
 		$status = Status::find($statusId);
 
 		$data = [
-			'status' => $status->status,
+			'status' => $status,
 		];
 
 		return view('status.edit', $data);
@@ -92,11 +96,11 @@ class StatusController extends UserPermissionsController {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function update($id)
+	public function update($userId, $statusId, Request $request)
 	{
-		dd('update');
-		$status = Status::find($id);
-		dd($status);
+		dd( $statusId );
+		Status::find($statusId);
+
 
 	}
 

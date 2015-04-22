@@ -1,5 +1,7 @@
 @extends('app')
 
 @section('content')
-        <p>{{ $status->status }}</p>
+        <blockquote>
+                <p>{{ $status->status }}</p>
+        </blockquote>
 @endsection

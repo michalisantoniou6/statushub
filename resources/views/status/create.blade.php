@@ -4,7 +4,7 @@
     <div class="container">
         <div class="row">
             <div class="col-md-10 col-md-offset-1">
-                {!! Form::open([ 'route' => 'user.status.store', 'class' => 'form']) !!}
+                {!! Form::open([ 'route' => [ 'user.status.store', $authUserId ], 'class' => 'form']) !!}
 
                 <div class="form-group">
                     <h1>Say something...</h1>
@@ -21,7 +21,7 @@
 
                 <div class="form-group">
                     {!! Form::submit('Publish Status',
-                    [ 'class'=>'btn btn-primary']) !!}
+                    [ 'class'=>'btn btn-primary' ]) !!}
                 </div>
                 {!! Form::close() !!}
             </div>

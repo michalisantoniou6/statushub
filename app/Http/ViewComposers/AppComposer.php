@@ -6,9 +6,13 @@ class AppComposer {
 
     public function compose(View $view)
     {
-        $authUserId = \Auth::user()->id;
+        if (\Auth::check()) {
 
-        $view->with('authUserId', $authUserId);
+            $authUserId = \Auth::user()->id;
+
+            $view->with('authUserId', $authUserId);
+
+        }
     }
 
 }
