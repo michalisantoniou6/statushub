@@ -8,6 +8,12 @@
                 @foreach($friends as $friend)
                     <div class="box">
                         <a href="/user/{{ $friend->id }}/status">{{ $friend->name }}</a>
+
+                        {!! Form::open(['route' => [ 'user.friends.destroy', 7, $friend->id ], 'method' => 'DELETE', 'class' => 'form']) !!}
+                        {!! Form::submit('Unfriend', array('class' => 'btn btn-warning')) !!}
+                        {!! Form::close() !!}
+
+
                     </div>
                 @endforeach
             </div>

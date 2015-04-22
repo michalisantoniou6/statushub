@@ -46,20 +46,16 @@ class FriendsController extends UserPermissionsController {
 	public function store(Request $request)
 	{
 		$friendId = $request->input('friendId');
-		$responseMsg = '';
 
 		if( ! $this->authUser->verifyFriendship($friendId) ){
-			$saved = $this->authUser->addFriend($friendId);
-
+			$this->authUser->addFriend($friendId);
 			$success = 'You have added ' . User::find($friendId)->name . '!';
-
 			$responseMsg = $success;
 		} else {
 			$responseMsg = 'fail';
 		}
 
 		return $responseMsg;
-
 	}
 
 	/**
@@ -68,9 +64,11 @@ class FriendsController extends UserPermissionsController {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function destroy($id)
+	public function destroy($userId, $friendId)
 	{
+		$unfriend = User::find($this->authUser->id)->removeFriend($friendId);
 
+		return redirect()->back()->with('success', 'You are no longer friends with' . User::find($friendId)->name);
 	}
 
 }

@@ -55,8 +55,12 @@
 		</div>
 	</nav>
 
-	@if(isset($success))
-		<div class="alert alert-success" role="alert">{{ $success }}</div>
+	@if(isset($successMsg))
+		<div class="alert alert-success" role="alert">{{ $successMsg }}</div>
+	@endif
+
+	@if (session()->has('success'))
+		<div class="alert alert-success" role="alert">{{ session('success') }}</div>
 	@endif
 
 
