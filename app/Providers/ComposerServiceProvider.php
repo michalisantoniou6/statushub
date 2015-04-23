@@ -12,7 +12,7 @@ class ComposerServiceProvider extends ServiceProvider {
      */
     public function boot()
     {
-        View::composer(['app', 'status.*'], 'StatusHub\Http\ViewComposers\AppComposer');
+        View::composer(['*'], 'StatusHub\Http\ViewComposers\AppComposer');
     }
 
     /**

@@ -55,20 +55,18 @@
 		</div>
 	</nav>
 
-	@if(isset($successMsg))
-		<div class="alert alert-success" role="alert">{{ $successMsg }}</div>
-	@endif
-
 	@if (session()->has('success'))
-		<div class="alert alert-success" role="alert">{{ session('success') }}</div>
+		<div class="col-md-8 col-md-offset-2">
+			<div class="alert alert-success" role="alert">{{ session('success') }}</div>
+		</div>
 	@endif
-
 
 	@yield('content')
-
 
 	<!-- Scripts -->
 	<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 	<script src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.1/js/bootstrap.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.3.0/knockout-min.js"></script>
+	<script src="{{ asset('/js/scripts.js') }}"></script>
 </body>
 </html>

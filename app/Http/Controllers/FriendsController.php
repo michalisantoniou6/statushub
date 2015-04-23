@@ -68,7 +68,7 @@ class FriendsController extends UserPermissionsController {
 	{
 		$unfriend = User::find($this->authUser->id)->removeFriend($friendId);
 
-		return redirect()->back()->with('success', 'You are no longer friends with' . User::find($friendId)->name);
+		return redirect()->back()->with('success', 'You are no longer friends with ' . User::find($friendId)->name);
 	}
 
 }

@@ -17,16 +17,20 @@ class StatusController extends UserPermissionsController {
 	 *
 	 * @return Response
 	 */
-	public function index($userId)
+	public function index($userId, Request $request)
 	{
 		if ( $this->urlUserId != $this->authUser->id && ! $this->isUrlUserAFriend  ) {
 			$message = 'This user is not your friend, so you cannot see their status';
 			return view('notify', [ 'message' => $message ]);
 		}
 
-		$statuses = User::find($userId)->statuses()->orderBy('created_at', 'DESC')->get()->toArray();
+		$statuses = User::find($userId)->statuses()->orderBy('created_at', 'DESC')->get();
 
-		return view('status.index', ['statuses' => $statuses]);
+		if ($userId == $this->authUser->id && $request->ajax()) {
+			return json_encode($statuses);
+		} else {
+			return view('status.index', ['statuses' => $statuses->toArray()]);
+		}
 	}
 
 	/**
@@ -48,7 +52,9 @@ class StatusController extends UserPermissionsController {
 	{
 		$saved = $this->authUser->statuses()->save(new Status( $request->all() ));
 
-		if ($saved) {
+		if ($request->ajax()) {
+			return $saved;
+		} else {
 			return view('notify', [ 'message' => 'Successfully saved status' ]);
 		}
 	}

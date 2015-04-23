@@ -8,15 +8,11 @@
 
                 <div class="form-group">
                     <h1>Say something...</h1>
-                    {!! Form::textarea(
-                    'status',
-                    null,
-                    [
-                    'required',
-                    'class'=>'form-control',
-                    'placeholder'=>'Type your status here',
-                    ]
-                    ) !!}
+                    {!! Form::textarea( 'status', null, [
+                        'required',
+                        'class'=>'form-control',
+                        'placeholder'=>'Type your status here',
+                    ]) !!}
                 </div>
 
                 <div class="form-group">
