@@ -30,8 +30,13 @@ $(function() {
     var Status = function(id, status, createdAt, editedAt) {
         this.id = id;
         this.status = status;
-        this.createdAt = createdAt;
         this.editedAt = editedAt;
+
+        if ( createdAt != null ) {
+                this.createdAt = createdAt;
+            } else {
+                this.createdAt = 'just now';
+            }
     }
 
     var statusViewModel = {
@@ -49,12 +54,10 @@ $(function() {
         addStatus: function(){
             if (this.newStatus().length > 0 ) {
                 $.ajax({
-                    url: "http://statushub.dev/user/7/status/",
+                    url: varsFromBE.baseUrl + "/user/" + varsFromBE.authUser + "/status/",
                     type: "POST",
                     data: { 'status': this.newStatus(), '_token': $('input[name=_token]').val() },
                     success: function (statuses) {
-                        console.log(statuses)
-                        //statusViewModel.getStatusesFromDb( JSON.parse(statuses) )
                     }
                 });
                 this.statusesFromDb.unshift(
@@ -67,7 +70,7 @@ $(function() {
     ko.applyBindings(statusViewModel);
 
     $.ajax({
-        url: "http://statushub.dev/user/7/status/",
+        url: varsFromBE.baseUrl + "/user/"  + varsFromBE.authUser + "/status/",
         success: function (statuses) {
             statusViewModel.getStatusesFromDb( JSON.parse(statuses) )
         }

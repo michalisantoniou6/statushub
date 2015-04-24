@@ -1,6 +1,7 @@
 <?php namespace StatusHub\Http\ViewComposers;
 
 use Illuminate\Contracts\View\View;
+use Illuminate\Support\Facades\Auth;
 
 class AppComposer {
 
@@ -8,7 +9,7 @@ class AppComposer {
     {
         if (\Auth::check()) {
 
-            $authUserId = \Auth::user()->id;
+            $authUserId = Auth::user()->id;
 
             $view->with('authUserId', $authUserId);
 

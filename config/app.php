@@ -146,7 +146,11 @@ return [
 		'StatusHub\Providers\EventServiceProvider',
 		'StatusHub\Providers\RouteServiceProvider',
 
+		/*
+		 * My Service Providers
+		 */
 		'Illuminate\Html\HtmlServiceProvider',
+		'Laracasts\Utilities\JavaScript\JavascriptServiceProvider',
 
 	],
 

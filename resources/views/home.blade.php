@@ -3,9 +3,11 @@
 @section('content')
 <div class="container">
 	<div class="row">
-		<div class="col-md-10 col-md-offset-1">
+		<div class="col-md-6 col-md-offset-1">
 
 			{!! Form::open([ 'route' => [ 'user.status.store', $authUserId ], 'class' => 'form']) !!}
+
+			{!! Form::label('How ya feelin today?') !!}
 
 			{!! Form::text( 'status', null, [
 				'required',
@@ -15,14 +17,21 @@
 			]) !!}
 
 			{!! Form::submit( 'Post status', [
+				'class' => 'pull-right',
 				'data-bind' => 'click: addStatus'
 			]) !!}
 
 			{!! Form::close() !!}
 
-			<ul data-bind="foreach: statusesFromDb">
-				<blockquote data-bind="text: status"></blockquote>
-			</ul>
+		<div class="clearfix"></div>
+
+		<h4>Status history</h4>
+		<div data-bind="foreach: statusesFromDb">
+			<blockquote>
+				<p class="status" data-bind="text: status"></p>
+				<small class="pull-right" data-bind="text: createdAt"></small>
+			</blockquote>
+		</div>
 
 		</div>
 	</div>

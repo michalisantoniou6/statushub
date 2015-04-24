@@ -1,5 +1,9 @@
 <?php namespace StatusHub\Http\Controllers;
 
+use Laracasts\Utilities\JavaScript\JavaScriptServiceProvider;
+use Laracasts\Utilities\JavaScript\JavaScriptFacade;
+use Laracasts\Utilities\JavaScript;
+
 class HomeController extends Controller {
 
 	/*
@@ -30,6 +34,10 @@ class HomeController extends Controller {
 	 */
 	public function index()
 	{
+		\JavaScript::put([
+			'authUser' => \Auth::id(),
+			'baseUrl' => \URL::to('/')
+		]);
 		return view('home');
 	}
 
