@@ -23,7 +23,9 @@ class FriendsController extends UserPermissionsController {
 
 		$friends = User::find($this->urlUserId)->getAllFriends();
 
-		return view('friends.index', ['friends' => $friends]);
+		$hideDeleteButton = ($this->urlUserId == $this->authUser->id) ? true : false;
+
+		return view('friends.index', ['friends' => $friends, 'hideDeleteButton' => $hideDeleteButton]);
 	}
 
 	/**

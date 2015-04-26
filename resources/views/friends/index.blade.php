@@ -7,11 +7,14 @@
                 <h1>Friends List</h1>
                 @foreach($friends as $friend)
                     <div class="box">
-                        <a href="/user/{{ $friend->id }}/status">{{ $friend->name }}</a>
+                        <a href="{{ \URL::action( 'UserController@show', [ $friend->id ] ) }}">{{ $friend->name }}</a>
 
-                        {!! Form::open(['route' => [ 'user.friends.destroy', $authUserId, $friend->id ], 'method' => 'DELETE', 'class' => 'form']) !!}
-                        {!! Form::submit('Unfriend', array('class' => 'btn btn-warning')) !!}
-                        {!! Form::close() !!}
+                        @if ( $hideDeleteButton )
+                            {!! Form::open(['route' => [ 'user.friends.destroy', $authUserId, $friend->id ], 'method' => 'DELETE', 'class' => 'form']) !!}
+                            {!! Form::submit('Unfriend', array('class' => 'btn btn-warning')) !!}
+                            {!! Form::close() !!}
+                        @endif
+
 
 
                     </div>
