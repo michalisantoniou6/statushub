@@ -7,11 +7,13 @@
                 <h1>Friends List</h1>
                 @foreach($friends as $friend)
                     <div class="box">
-                        {!! Form::open(['route' => [ 'user.friends.destroy', 7, $friend->id ], 'method' => 'DELETE',
-                                'class' => 'form removeFriendForm', 'id' => 'rm-'.$friend->id ]) !!}
-                        <a href="/user/{{ $friend->id }}">{{ $friend->name }}</a>
+                        <a href="/user/{{ $friend->id }}/status">{{ $friend->name }}</a>
+
+                        {!! Form::open(['route' => [ 'user.friends.destroy', $authUserId, $friend->id ], 'method' => 'DELETE', 'class' => 'form']) !!}
                         {!! Form::submit('Unfriend', array('class' => 'btn btn-warning')) !!}
                         {!! Form::close() !!}
+
+
                     </div>
                 @endforeach
             </div>
