@@ -18,6 +18,8 @@ class AuthController extends Controller {
 	|
 	*/
 
+	protected $redirectTo = '/';
+
 	use AuthenticatesAndRegistersUsers;
 
 	/**

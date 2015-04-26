@@ -1,8 +1,8 @@
 <?php namespace StatusHub\Http\Controllers;
 
-use Laracasts\Utilities\JavaScript\JavaScriptServiceProvider;
 use Laracasts\Utilities\JavaScript\JavaScriptFacade;
-use Laracasts\Utilities\JavaScript;
+
+use StatusHub\User;
 
 class HomeController extends Controller {
 
@@ -34,11 +34,18 @@ class HomeController extends Controller {
 	 */
 	public function index()
 	{
+		$id = \Auth::user()->id;
+
+		$friends = User::find($id)->getAllFriends()->take(10)->lists('name', 'id');
+		$statuses = User::find($id)->statuses()->orderBy('created_at', 'DESC')->take(20)->get()->toJson();
+
 		\JavaScript::put([
 			'authUser' => \Auth::id(),
-			'baseUrl' => \URL::to('/')
+			'baseUrl' => \URL::to('/'),
+			'myStatuses' => $statuses
 		]);
-		return view('home');
+
+		return view('home', ['friends' => $friends]);
 	}
 
 }

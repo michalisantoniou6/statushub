@@ -16,6 +16,7 @@ class UserPermissionsController extends Controller {
         $this->authUser = \Auth::user();
         $this->urlUserId = $request->route('user');
         $this->isUrlUserAFriend = $this->authUser->verifyFriendship($this->urlUserId);
+        $this->middleware('auth');
     }
 
 }

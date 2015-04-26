@@ -8,18 +8,7 @@ use StatusHub\Http\Controllers\Controller;
 
 use Illuminate\Http\Request;
 
-class UserController extends Controller {
-
-	/**
-	 * Create a new controller instance.
-	 *
-	 * @return void
-	 */
-	public function __construct()
-	{
-		$this->middleware('auth');
-	}
-
+class UserController extends UserPermissionsController {
 	/**
 	 * Display a listing of the resource.
 	 *
@@ -58,9 +47,16 @@ class UserController extends Controller {
 	 */
 	public function show($id)
 	{
-		$user = User::find($id);
+		if ( $this->urlUserId != $this->authUser->id && ! $this->isUrlUserAFriend  ) {
+			$message = 'This user is not your friend, so you cannot see their friends';
+			return view('notify', [ 'message' => $message ]);
+		}
 
-		return view('user.show', [ 'name' => $user->name ]);
+		$user = User::find($id);
+		$friends = $user->getAllFriends()->take(10)->lists('name', 'id');
+		$statuses = $user->statuses()->orderBy('created_at', 'DESC')->take(20)->get();
+
+		return view('user.show', [ 'name' => $user->name, 'friends' => $friends, 'statuses' => $statuses ]);
 	}
 
 	/**

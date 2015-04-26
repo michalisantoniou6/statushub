@@ -10,7 +10,7 @@
                         @if( $status['user_id'] == $authUserId )
                             <a href="{{ \URL::action('StatusController@edit', [ $authUserId, $status['id'] ]) }}">Edit</a>
                         @endif
-                    created at {{ $status['created_at'] }}
+                    <small class="pull-right">{{ $status['created_at'] }}</small>
                 </blockquote>
             @endforeach
         </div>

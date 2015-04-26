@@ -53,7 +53,7 @@ class StatusController extends UserPermissionsController {
 		$saved = $this->authUser->statuses()->save(new Status( $request->all() ));
 
 		if ($request->ajax()) {
-			return $saved;
+			return json_encode( $saved['attributes'] );
 		} else {
 			return view('notify', [ 'message' => 'Successfully saved status' ]);
 		}

@@ -7,7 +7,8 @@
                 <h1>Make Some Friends</h1>
 
             @foreach($allUsers as $user)
-                    {!! Form::open(['route' => 'user.friends.store', 'class' => 'form addFriendForm']) !!}
+                    {!! Form::open(['route' => 'user.friends.store', 'class' => 'form addFriendForm',
+                        'id' => 'add-'.$user['id'] ]) !!}
 
                     <div class="form-group">
                         <a href="{{ \URL::action('UserController@show', [ $user['id'] ]) }}">{{ $user['name'] }} </a>

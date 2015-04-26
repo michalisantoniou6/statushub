@@ -5,76 +5,92 @@ $(function() {
     $(".addFriendForm").submit(function (e) {
         var postData = $(this).serializeArray();
         var formURL = $(this).attr("action");
+        var removeThis = $(this).attr('id');
+
         $.ajax(
             {
                 url: formURL,
                 type: "POST",
                 data: postData,
                 success: function (data, textStatus, jqXHR) {
-                    //data: return data from server
-                    alert(data);
+                    bootbox.alert('Congratulations! You made a new friend!');
+                    $('#' + removeThis).remove();
                 },
                 error: function (jqXHR, textStatus, errorThrown) {
-                    alert('fail');
+                    bootbox.alert('fail');
                 }
             });
+
         e.preventDefault();
         e.unbind();
     });
+
+
+
+    /**
+     * Remove friend ajax request
+     */
+    $(".removeFriendForm").submit(function (e) {
+        var formUrl = $(this).attr("action");
+        var postData = $(this).serializeArray();
+        var name = $(this).closest(".box").text();
+        var removeThis = $(this).attr('id');
+
+        $.ajax(
+            {
+                url: formUrl,
+                type: "DELETE",
+                data: postData,
+                success: function (data, textStatus, jqXHR) {
+                    bootbox.alert('You are no longer friends with' + name);
+                    $('#' + removeThis).remove();
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    bootbox.alert('fail');
+                }
+            });
+
+        e.preventDefault();
+        e.unbind();
+    });
+
+
 
 
     /**
      * Statuses Knockout
      * @type {Array}
      */
-    var Status = function(id, status, createdAt, editedAt) {
-        this.id = id;
-        this.status = status;
-        this.editedAt = editedAt;
-
-        if ( createdAt != null ) {
-                this.createdAt = createdAt;
-            } else {
-                this.createdAt = 'just now';
-            }
+    var Status = function(status) {
+        this.id = status.id;
+        this.status = status.status;
+        this.created_at = status.created_at;
     }
 
-    var statusViewModel = {
-        newStatus: ko.observable(),
-        statusesFromDb: ko.observableArray(),
+    function statusViewModel (){
+        var self = this;
+        self.newStatus = ko.observable();
+        self.statusesFromDb = ko.observableArray( JSON.parse(varsFromBE.myStatuses) );
 
-        getStatusesFromDb: function(statuses){
-            for (var i=0; i<statuses.length; i++) {
-                this.statusesFromDb.push(
-                    new Status( statuses[i].id, statuses[i].status, statuses[i].created_at, statuses[i].edited_at )
-                )
-            }
-        },
-
-        addStatus: function(){
-            if (this.newStatus().length > 0 ) {
+        self.addStatus = function(){
+            if (self.newStatus().length > 0 ) {
                 $.ajax({
                     url: varsFromBE.baseUrl + "/user/" + varsFromBE.authUser + "/status/",
                     type: "POST",
-                    data: { 'status': this.newStatus(), '_token': $('input[name=_token]').val() },
-                    success: function (statuses) {
+                    data: { 'status': self.newStatus(), '_token': $('input[name=_token]').val() },
+                    success: function (saved) {
+                        var saved = JSON.parse(saved);
+                        self.statusesFromDb.unshift(
+                            new Status( saved )
+                        );
                     }
                 });
-                this.statusesFromDb.unshift(
-                    new Status( null, this.newStatus(), null, null )
-                );
             }
         }
-    };
+    }
 
     ko.applyBindings(statusViewModel);
 
-    $.ajax({
-        url: varsFromBE.baseUrl + "/user/"  + varsFromBE.authUser + "/status/",
-        success: function (statuses) {
-            statusViewModel.getStatusesFromDb( JSON.parse(statuses) )
-        }
-    });
 
 });
 

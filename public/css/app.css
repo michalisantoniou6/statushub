@@ -6231,6 +6231,17 @@ label,
 .checkbox label {
   font-weight: 300;
 }
+body {
+  background-color: #f8f8f8;
+}
+body,
+label,
+.checkbox label {
+  font-weight: 300;
+}
 .top-menu {
   border-top: 4px solid #ff8500;
+}
+.box {
+  padding-bottom: 1.5rem;
 }

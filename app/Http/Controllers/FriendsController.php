@@ -64,11 +64,15 @@ class FriendsController extends UserPermissionsController {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function destroy($userId, $friendId)
+	public function destroy($userId, $friendId, Request $request)
 	{
 		$unfriend = User::find($this->authUser->id)->removeFriend($friendId);
 
-		return redirect()->back()->with('success', 'You are no longer friends with ' . User::find($friendId)->name);
+		if ( $request->ajax() ) {
+			return 'ok';
+		} else {
+			return redirect()->back();
+		}
 	}
 
 }

@@ -53,7 +53,11 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 
 	public function removeFriend($friendId)
 	{
-		$this->friendsIAdded()->detach($friendId);
+		$check = $this->friendsIAdded()->detach($friendId);
+
+		if ( !$check ) {
+			$this->friendsWhoAddedMe()->detach($friendId);
+		}
 	}
 
 	public function getAllFriends()

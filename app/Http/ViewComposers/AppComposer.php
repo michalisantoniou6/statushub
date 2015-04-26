@@ -7,7 +7,7 @@ class AppComposer {
 
     public function compose(View $view)
     {
-        if (\Auth::check()) {
+        if (Auth::check()) {
 
             $authUserId = Auth::user()->id;
 
