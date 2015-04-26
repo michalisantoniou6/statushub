@@ -48,7 +48,7 @@ class UserController extends UserPermissionsController {
 	public function show($id)
 	{
 		if ( $this->urlUserId != $this->authUser->id && ! $this->isUrlUserAFriend  ) {
-			$message = 'This user is not your friend, so you cannot see their friends';
+			$message = 'This user is not your friend, so you cannot see their profile.';
 			return view('notify', [ 'message' => $message ]);
 		}
 
