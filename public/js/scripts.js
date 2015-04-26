@@ -67,36 +67,36 @@ $(function() {
         this.created_at = status.created_at;
     }
 
-    function statusViewModel (){
-        var self = this;
-        self.newStatus = ko.observable();
-        self.statusesFromDb = ko.observableArray( JSON.parse(varsFromBE.myStatuses) );
+    var statusViewModel = {
+        newStatus: ko.observable(),
+        statusesFromDb: ko.observableArray()
+    };
 
-        self.addStatus = function(){
-            if (self.newStatus().length > 0 ) {
-                $.ajax({
-                    url: varsFromBE.baseUrl + "/user/" + varsFromBE.authUser + "/status/",
-                    type: "POST",
-                    data: { 'status': self.newStatus(), '_token': $('input[name=_token]').val() },
-                    success: function (saved) {
-                        var saved = JSON.parse(saved);
-                        self.statusesFromDb.unshift(
-                            new Status( saved )
-                        );
-                    }
-                });
-            }
-        }
-    }
+    statusViewModel.statusesFromDb( JSON.parse(varsFromBE.myStatuses) );
+
 
     ko.applyBindings(statusViewModel);
 
 
-    /**
-     * Clear Status textbox on submit
-     */
-    $("#addNewStatus").click(function() {
-        $("#statusTextBox").val("");
+    $(".addNewStatusForm").submit(function(e) {
+        var url = $(this).attr("action");
+        var postData = $(this).serializeArray();
+
+        $.ajax({
+            url: url,
+            type: "POST",
+            data: postData,
+            success: function (saved) {
+                var saved = JSON.parse(saved);
+                statusViewModel.statusesFromDb.unshift(
+                    new Status( saved )
+                );
+                $("#statusTextBox").val("");
+            }
+        });
+
+        e.preventDefault();
+        e.unbind();
     });
 
 

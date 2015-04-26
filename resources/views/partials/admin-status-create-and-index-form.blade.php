@@ -1,4 +1,4 @@
-{!! Form::open([ 'route' => [ 'user.status.store', $authUserId ], 'class' => 'form']) !!}
+{!! Form::open([ 'route' => [ 'user.status.store', $authUserId ], 'class' => 'form addNewStatusForm']) !!}
     {!! Form::label('How ya feelin today?') !!}
 
     {!! Form::text( 'status', null, [
@@ -11,8 +11,7 @@
 
     {!! Form::submit( 'Post status', [
         'id' => 'addNewStatus',
-        'class' => 'pull-right',
-        'data-bind' => 'click: addStatus'
+        'class' => 'pull-right'
     ]) !!}
 {!! Form::close() !!}
 
