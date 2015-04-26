@@ -2,15 +2,17 @@
     {!! Form::label('How ya feelin today?') !!}
 
     {!! Form::text( 'status', null, [
-    'required',
-    'data-bind' => "textInput: newStatus",
-    'class'=>'form-control',
-    'placeholder'=>'Type your status here'
+        'required',
+        'data-bind' => "textInput: newStatus",
+        'class'=>'form-control',
+        'id' => 'statusTextBox',
+        'placeholder'=>'Type your status here'
     ]) !!}
 
     {!! Form::submit( 'Post status', [
-    'class' => 'pull-right',
-    'data-bind' => 'click: addStatus'
+        'id' => 'addNewStatus',
+        'class' => 'pull-right',
+        'data-bind' => 'click: addStatus'
     ]) !!}
 {!! Form::close() !!}
 
@@ -18,7 +20,8 @@
 
 <div data-bind="foreach: statusesFromDb">
     <blockquote>
-        <p class="status" data-bind="text: status, attr: { 'data-id': id }"></p>
+        <p class="status" data-bind="text: status"></p>
+        <a class="edit-status" data-bind="attr: { 'data-id': id }" href="{{ \URL::action('StatusController@index', [ $authUserId ]) }}">Edit</a>
         <small class="pull-right" data-bind="text: created_at"></small>
     </blockquote>
 </div>

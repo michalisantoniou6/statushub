@@ -92,6 +92,30 @@ $(function() {
     ko.applyBindings(statusViewModel);
 
 
+    /**
+     * Clear Status textbox on submit
+     */
+    $("#addNewStatus").click(function() {
+        $("#statusTextBox").val("");
+    });
+
+
+    /**
+     * Link to edit status page
+     */
+    $(".edit-status").click(function(e) {
+        e.preventDefault();
+
+        var id = $(this).attr('data-id');
+        var url = $(this).attr('href');
+        var redirectTo = url + '/' + id + '/edit';
+
+        window.location.href = redirectTo;
+
+    });
+
+
+
 });
 
 

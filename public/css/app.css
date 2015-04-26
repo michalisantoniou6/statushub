@@ -6245,3 +6245,9 @@ label,
 .box {
   padding-bottom: 1.5rem;
 }
+blockquote {
+  border-left: 5px solid #FF8500;
+}
+#addNewStatus {
+  background-color: #FF8500;
+}

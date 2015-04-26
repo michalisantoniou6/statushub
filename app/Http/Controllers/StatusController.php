@@ -108,7 +108,7 @@ class StatusController extends UserPermissionsController {
 		$status->status = $request->input('status');
 		$status->save();
 
-		return 'updated';
+		return redirect()->to('/');
 	}
 
 	/**
