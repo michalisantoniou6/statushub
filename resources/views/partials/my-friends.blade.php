@@ -3,7 +3,7 @@
 @if ( ! empty($friends) )
     @foreach($friends as $key => $name)
         <div class="box">
-            <a href="/user/{{ $key }}">{{ $name }}</a>
+            <a href="{{ \URL::action( 'UserController@show', [ $key ] ) }}">{{ $name }}</a>
         </div>
     @endforeach
 @else
